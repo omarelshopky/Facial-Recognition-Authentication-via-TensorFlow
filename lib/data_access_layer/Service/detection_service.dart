@@ -8,9 +8,9 @@ import 'package:image/image.dart' as imglib;
 import 'package:auth_via_tf_facial_recognition/data_access_layer/Service/database.dart';
 
 
-class FaceNetService {
+class DetectionService {
   // To build Singleton
-  static final FaceNetService _faceNetService = FaceNetService._internal();
+  static final DetectionService _faceNetService = DetectionService._internal();
 
   final DatabaseService _databaseService = DatabaseService();
   late Interpreter _interpreter;
@@ -18,11 +18,11 @@ class FaceNetService {
   double threshold = 1.0;
 
 
-  factory FaceNetService() {
+  factory DetectionService() {
     return _faceNetService;
   }
   // To build Singleton
-  FaceNetService._internal();
+  DetectionService._internal();
 
 
   // Getter & Setter for the attribute

@@ -1,7 +1,7 @@
 import 'package:auth_via_tf_facial_recognition/GUI/Authentication/signup.dart';
 import 'package:auth_via_tf_facial_recognition/data_access_layer/Service/camera_service.dart';
 import 'package:auth_via_tf_facial_recognition/data_access_layer/Service/database.dart';
-import 'package:auth_via_tf_facial_recognition/data_access_layer/Service/detection_service.dart';
+import 'package:auth_via_tf_facial_recognition/data_access_layer/Service/prediction_service.dart';
 import 'package:auth_via_tf_facial_recognition/data_access_layer/Service/ml_kit_service.dart';
 import 'package:auth_via_tf_facial_recognition/GUI/Authentication/login.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,7 @@ class IntroScreen extends StatefulWidget {
 
 class _IntroScreenState extends State<IntroScreen> {
 
-  final DetectionService _detectionService = DetectionService();
+  final PredictionService _predictionService = PredictionService();
   final MLKitService _mlKitService = MLKitService();
   final DatabaseService _dataBaseService = DatabaseService();
   final CameraService _cameraService = CameraService();
@@ -37,7 +37,7 @@ class _IntroScreenState extends State<IntroScreen> {
     _setLoading(true);
 
     await _cameraService.getFrontCamera();
-    await _detectionService.loadModel();
+    await _predictionService.loadModel();
     await _dataBaseService.load();
     _mlKitService.init();
 

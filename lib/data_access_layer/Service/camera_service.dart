@@ -24,12 +24,22 @@ class CameraService {
   get cameraController => _controller;
   get rotation => _rotation;
   get imagePath => _imagePath;
+  get description => _description;
+
+
+  /// Gets the front camera description
+  Future getFrontCamera() async{
+    List<CameraDescription> cameras = await availableCameras();
+
+    // takes the front camera
+    _description = cameras.firstWhere(
+          (CameraDescription camera) => camera.lensDirection == CameraLensDirection.front,
+    );
+  }
 
 
   /// Initializes the attributes
-  Future init(CameraDescription cameraDescription) async {
-    _description = cameraDescription;
-
+  Future init() async {
     _controller = CameraController(
       _description,
       ResolutionPreset.high,

@@ -15,7 +15,7 @@ class ImageConverter {
         img = _convertBGRA8888(image);
       }
 
-      return img;
+      return imglib.copyRotate(img, -90);
     } catch (e) {
       // print(e);
     }

@@ -19,7 +19,7 @@ class CameraService {
   // To build Singleton
   CameraService._internal();
 
-  
+
   // Getters for the attributes
   get cameraController => _controller;
   get rotation => _rotation;

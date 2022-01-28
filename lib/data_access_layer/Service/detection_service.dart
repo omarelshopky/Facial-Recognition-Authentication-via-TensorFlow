@@ -8,6 +8,7 @@ import 'package:image/image.dart' as imglib;
 import 'package:auth_via_tf_facial_recognition/data_access_layer/Service/database.dart';
 import 'package:auth_via_tf_facial_recognition/data_access_layer/Service/image_converter.dart';
 
+
 class DetectionService {
   // To build Singleton
   static final DetectionService _faceNetService = DetectionService._internal();
@@ -58,12 +59,6 @@ class DetectionService {
     } catch (e) {
       // print(e);
     }
-  }
-
-
-
-
-    return imglib.copyRotate(img, -90);
   }
 
 

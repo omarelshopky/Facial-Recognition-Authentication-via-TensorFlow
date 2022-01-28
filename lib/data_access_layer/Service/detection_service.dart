@@ -6,7 +6,7 @@ import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 import 'package:image/image.dart' as imglib;
 import 'package:auth_via_tf_facial_recognition/data_access_layer/Service/database.dart';
-
+import 'package:auth_via_tf_facial_recognition/data_access_layer/Service/image_converter.dart';
 
 class DetectionService {
   // To build Singleton
@@ -61,29 +61,7 @@ class DetectionService {
   }
 
 
-  /// converts CameraImage type [image] to Image type
-  imglib.Image _convertCameraImage(CameraImage image) {
-    int width = image.width;
-    int height = image.height;
-    var img = imglib.Image(width, height);
-    const int hexFF = 0xFF000000;
-    final int uvRowStride = image.planes[1].bytesPerRow;
-    int? uvPixelStride = image.planes[1].bytesPerPixel;
-    uvPixelStride ??= 0; // Assign zero when null
 
-    for (int x = 0; x < width; x++) {
-      for (int y = 0; y < height; y++) {
-        final int uvIndex = uvPixelStride * (x / 2).floor() + uvRowStride * (y / 2).floor();
-        final int index = y * width + x;
-        final yp = image.planes[0].bytes[index];
-        final up = image.planes[1].bytes[uvIndex];
-        final vp = image.planes[2].bytes[uvIndex];
-        int r = (yp + vp * 1436 / 1024 - 179).round().clamp(0, 255);
-        int g = (yp - up * 46549 / 131072 + 44 - vp * 93604 / 131072 + 91).round().clamp(0, 255);
-        int b = (yp + up * 1814 / 1024 - 227).round().clamp(0, 255);
-        img.data[index] = hexFF | (b << 16) | (g << 8) | r;
-      }
-    }
 
     return imglib.copyRotate(img, -90);
   }
@@ -91,7 +69,7 @@ class DetectionService {
 
   /// Crops the [detectedFace] from the [image]
   _cropFace(CameraImage image, Face detectedFace, {double offset = 10.0}) {
-    imglib.Image convertedImage = _convertCameraImage(image);
+    imglib.Image convertedImage = ImageConverter.convertCameraImage(image);
     double x = detectedFace.boundingBox.left - offset;
     double y = detectedFace.boundingBox.top - offset;
     double w = detectedFace.boundingBox.width + offset;

@@ -57,7 +57,8 @@ class SignupState extends State<Signup> {
 
   /// Initializes the camera & Starts detecting faces
   void _startUp() async {
-    _initializeControllerFuture = await _cameraService.init();
+    _initializeControllerFuture = _cameraService.init();
+    await _initializeControllerFuture;
 
     setState(() {
       cameraInitialized = true;
@@ -96,10 +97,9 @@ class SignupState extends State<Signup> {
             });
           }
 
-
           _detectingFaces = false;
         } catch (e) {
-          // print(e);
+          print("SIGNUP DETECT FACES ERROR>>>>>>>>>>>>>>>>>>>> " + e.toString());
           _detectingFaces = false;
         }
       }
@@ -197,12 +197,18 @@ class SignupState extends State<Signup> {
                                 fit: StackFit.expand,
                                 children: <Widget>[
                                   CameraPreview(
-                                      _cameraService.cameraController),
-                                  CustomPaint(
-                                    painter: FacePainter(
-                                        face: faceDetected!,
-                                        imageSize: imageSize),
+                                      _cameraService.cameraController
                                   ),
+                                  ((){
+                                    if(faceDetected != null){
+                                      return CustomPaint(
+                                        painter: FacePainter(
+                                            face: faceDetected!,
+                                            imageSize: imageSize),
+                                      );
+                                    }
+                                    return Container();
+                                  }())
                                 ],
                               ),
                             ),

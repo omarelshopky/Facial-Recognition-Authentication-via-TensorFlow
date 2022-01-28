@@ -11,6 +11,7 @@ class FacePainter extends CustomPainter {
   FacePainter({required this.imageSize, required this.face});
 
 
+  /// Draws a square on the face
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint;

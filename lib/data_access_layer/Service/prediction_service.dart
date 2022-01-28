@@ -9,9 +9,9 @@ import 'package:auth_via_tf_facial_recognition/data_access_layer/Service/databas
 import 'package:auth_via_tf_facial_recognition/data_access_layer/Service/image_converter.dart';
 
 
-class DetectionService {
+class PredictionService {
   // To build Singleton
-  static final DetectionService _faceNetService = DetectionService._internal();
+  static final PredictionService _faceNetService = PredictionService._internal();
 
   final DatabaseService _databaseService = DatabaseService();
   late Interpreter _interpreter;
@@ -19,17 +19,16 @@ class DetectionService {
   double threshold = 1.0;
 
 
-  factory DetectionService() {
+  factory PredictionService() {
     return _faceNetService;
   }
   // To build Singleton
-  DetectionService._internal();
+  PredictionService._internal();
 
 
   // Getter & Setter for the attribute
   get predictedData => _predictedData;
-  set predictedData(value) => _predictedData = value;
-
+  set predictedData(val) => _predictedData = val;
 
   /// Loads the Deep Learning model from storage
   Future loadModel() async {

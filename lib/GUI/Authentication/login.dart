@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:auth_via_tf_facial_recognition/GUI/Widget/auth_button.dart';
 import 'package:auth_via_tf_facial_recognition/GUI/Widget/camera_header.dart';
 import 'package:auth_via_tf_facial_recognition/data_access_layer/Service/camera_service.dart';
-import 'package:auth_via_tf_facial_recognition/data_access_layer/Service/detection_service.dart';
+import 'package:auth_via_tf_facial_recognition/data_access_layer/Service/prediction_service.dart';
 import 'package:auth_via_tf_facial_recognition/data_access_layer/Service/face_painter.dart';
 import 'package:auth_via_tf_facial_recognition/data_access_layer/Service/ml_kit_service.dart';
 import 'package:camera/camera.dart';
@@ -21,7 +21,7 @@ class Login extends StatefulWidget {
 class LoginState extends State<Login> {
   final CameraService _cameraService = CameraService();
   final MLKitService _mlKitService = MLKitService();
-  final DetectionService _detectionService = DetectionService();
+  final PredictionService _predictionService = PredictionService();
 
   late Future _initializeControllerFuture;
   bool cameraInitialized = false;
@@ -88,7 +88,7 @@ class LoginState extends State<Login> {
 
             if (_saveImage) {
               _saveImage = false;
-              _detectionService.setCurrentPrediction(image, faceDetected!);
+              _predictionService.setCurrentPrediction(image, faceDetected!);
             }
           } else {
             setState(() {
@@ -139,12 +139,12 @@ class LoginState extends State<Login> {
   }
 
 
-  _onBackPressed() {
+  void _onBackPressed() {
     Navigator.of(context).pop();
   }
 
 
-  _reload() {
+  void _reload() {
     setState(() {
       _bottomSheetVisible = false;
       cameraInitialized = false;
